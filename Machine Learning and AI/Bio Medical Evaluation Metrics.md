@@ -21,4 +21,4 @@ The probability that a person is predicted Normal has not the disease(Normal).
 
 
 ### Correlation of Confusion matrix with these Metrics
-![correlation](/JustLearnedToday/Images/bio_med_evaluation_metric.png)
+![correlation](/Images/bio_med_evaluation_metric.png)
