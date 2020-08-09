@@ -7,4 +7,5 @@ This repository contains the topics that I learn on daily basis in a concise man
    - [Evaluation Metrics](Machine%20Learning%20and%20AI/Bio%20Medical%20Evaluation%20Metrics.md)
 
 ## Python
-- [Regular Expression(re module)](Python/regular_expression_re_module.md)
+- [Regular Expression (re module)](Python/regular_expression_re_module.md)
+- [Managing Data and Processes (sys and os module)](Python/managing_data_process_sys_os_module.md)
