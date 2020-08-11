@@ -1,6 +1,7 @@
 ## Managing Data and Processes
-Often we need to run system command which can be executed with Python script. We also need to change Environment variables sometimes which can also be done in Python script.
-
+Often we need to run system command which can be executed with Python script. We also need to change Environment variables sometimes which can also be done in Python script.  
+  
+[Official Documentation](https://docs.python.org/3/library/subprocess.html)
 ### Environment Variable  
   
 - **Shell:** Shell is a command line interface used to interact with Operating System.
@@ -43,11 +44,29 @@ Subprocess is a Child process that halt the Parent process until the child proce
 import subprocess
 
 subprocess.run(["date"]) -> return the CompletedProcess(args=['date'], returncode=0)
-subprocess.run(["sleep", 2]) -> first list item is the process name and others are the cmd line arguments needs to pass.  
+subprocess.run(["sleep", "2"]) -> first list item is the process name and others are the cmd line arguments needs to pass.  
 
 
 result = subprocess.run(["host", "8.8.8.8"], capture_output=True)
 print(result.stdout) -> result will be in stdout if successful else in stderr.  
 ```  
 
-> stdout and stderr output the result as binary streams. _result.stdout.decode()_
+> stdout and stderr output the result as binary streams. _result.stdout.decode()_  
+
+
+### Advanced Subprocess Management  
+Sometimes we might need to modify the Environment variable to for running a specific Subprocess task. For doing this we need to copy the environment first and then modify it.  
+```
+import os
+import subprocess 
+
+my_env  = os.environ.copy()
+
+// Modify the env, adding new path 
+my_env["PATH"] = os.pathsep.join(["/opt/myapp/", my_enc["PATH"]])
+
+//running the process with env
+result = subprocess.run(["myapp"], env=my_env)
+``` 
+
+> setting timeout in subprocess. Ex: subprocess.run(["sleep","2"], timeout=1)
