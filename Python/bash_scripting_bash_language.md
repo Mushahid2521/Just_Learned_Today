@@ -202,7 +202,7 @@ Split the log line with spaces. -f5- tells that to take everything after 5th par
 
 
 ### Bash CheatSheet   
-![first](/Images/bash_1.jpg)  
-![second](/Images/bash_2.jpg)  
-![third](/Images/bash_3.jpg)  
-![fourht](/Images/bash_5.jpg)
+![](/Images/bash_1.jpg =400x500)  
+![](/Images/bash_2.jpg)  
+![](/Images/bash_3.jpg)  
+![](/Images/bash_5.jpg)
