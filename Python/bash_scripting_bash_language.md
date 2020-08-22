@@ -2,6 +2,10 @@
 Bash is the most commonly used Shell in Linux. This is not only an Interpreter that runs commands but also a scripting language.  
   
 ## Common Bash Commands  
+> .> test.txt  
+
+Create a empty file
+
 > ```echo``` "something to write" >> fileName.ext   
 
 To create an empty file. Echo is used to print something on the shell. 
