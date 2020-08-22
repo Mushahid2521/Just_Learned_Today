@@ -1,7 +1,7 @@
-## Bash Scripting and Bash Language  
+# Bash Scripting and Bash Language  
 Bash is the most commonly used Shell in Linux. This is not only an Interpreter that runs commands but also a scripting language.  
   
-### Common Bash Commands  
+## Common Bash Commands  
 > ```echo``` "something to write" >> fileName.ext   
 
 To create an empty file. Echo is used to print something on the shell. 
@@ -41,7 +41,7 @@ Removes all the files in the directory but excluding the folders.
 
 Remove an empty Directory.  
 
-#### Redirecting Streams   
+### Redirecting Streams   
 The process of sending a stream to a different destination. When we want to store the output on a file rather than printing it on the screen.  
   
 > ./python_script.py > file.txt  
@@ -84,12 +84,12 @@ Tokens delivered to running processes to indicate a desired action. This can be 
 ```CTR + Z``` => this stops the program to run without terminating. 
 ```fg``` => restart the paused program to start running again.   
 
-#### Killing a process  
+### Killing a process  
 ```ps -ax```   list all the running process with PID (Process Identifier)  
 ```ps -ax | grep ping``` find the ping process.  
 ```kill PID``` Kills the process defined by PID  
 
-#### Variable 
+### Variable 
 ```
 example=Hello
 echo $example
@@ -100,7 +100,7 @@ line="----------------"
 echo "Starting at: $(date) echo $line 
 ```  
 
-#### Condition   
+### Condition   
 In Bash scripting the condition is based on the exit status.  
 An exit value 0 means success.   
 ```
@@ -116,7 +116,7 @@ fi
 ```echo *.py, echo ?????.py etc```  
 Similar things can be achieved in python using Glob module.  
   
-#### Test
+### Test
 A command that evaluates the conditions received and exits with zero when they're true and with one when they're false.   
 
 ```test -n &PATH```  
@@ -125,7 +125,7 @@ Checks if the PATH variable is empty or not.
 ```[ -n $PATH ]```
 [] is an alias to the test command.   
 
-#### While loop  
+### While loop  
 
 ```
 #!/bin/bash 
@@ -201,7 +201,7 @@ Split the log line with spaces. -f5- tells that to take everything after 5th par
 - Bash is not flexible and robust as like Python with many string functions, list dictionaries.    
 
 
-#### Bash CheatSheet   
+### Bash CheatSheet   
 ![first](/Images/bash_1.jpg)  
 ![second](/Images/bash_2.jpg)  
 ![third](/Images/bash_3.jpg)  
