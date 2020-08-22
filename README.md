@@ -11,7 +11,8 @@ This repository contains the topics that I learn on daily basis in a concise man
 ## Python
 - [Regular Expression (re module)](Python/regular_expression_re_module.md)
 - [Managing Data and Processes (sys and os module)](Python/managing_data_process_sys_os_module.md)    
-- [Testing in Python (unittest module)](Python/software_testing.md)
+- [Testing in Python (unittest module)](Python/software_testing.md)  
+- [Bash Scripting (Linux)]()
 
   
 ## Android  

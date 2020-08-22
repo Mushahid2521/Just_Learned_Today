@@ -25,7 +25,7 @@ unittest.main()
 ```    
 
 ##### Different types of assertion  
-![assertions]()     
+![assertions](/Images/assertion_cheatsheet.jpg)     
 
 ##### Edge Case:  
 Input that produce Unexpected result and are found at the extreme end of the ranges of input we imagine our program will typically work with.    
