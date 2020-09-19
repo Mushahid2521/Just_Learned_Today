@@ -60,10 +60,16 @@ android {
 You will get the versionname and versioncode from the gradle file in the downloaded release folder.  
   
 **Step 7:**  
-Include ```include ':opencv'``` in the ```settings.gradle``` file and **Sync** the project.  
+Include ```include ':opencv'``` in the ```settings.gradle``` file and **Sync** the project.    
 
 **Step 8:**  
-Open ```Project Structure``` from file->Project Structure and move to the dependency section. Click ```app``` module and then Click the ```+``` sign, from there select the ```Module Dependency```. Add the ```opencv``` library.   
-  
+Cut the ```manifest``` file to the ```opencv``` directory from the java sdk directory.  
+
 **Step 9:**  
+Open ```Project Structure``` from file->Project Structure and move to the dependency section. Click ```app``` module and then Click the ```+``` sign, from there select the ```Module Dependency```. Add the ```opencv``` library.     
+
+**Step 10:**  
+Open ```opencv4android-sdk/sdk/native``` and copy the ```libs``` folder. Paste it in the project app module main folder ```ProjectName/app/src/main``` and rename libs folder to ```jniLibs```. This is for native development purpose. 
+  
+**Step 11:**  
 Enjoy OpenCv by importing with ```org.opencv.*```. 
