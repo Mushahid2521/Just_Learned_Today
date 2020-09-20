@@ -1,4 +1,4 @@
-## Git and Github  
+# Git and Github  
 Git is a version control system or VCS which keeps track of code and configuration developed by Linus Torvold on 2005 when building Linux Kernel. It can be also called Source Controlled Management (SCM).     
 
   
@@ -187,7 +187,7 @@ git merge --abort
 ![git merge](/Images/git_merge.png)    
 
   
-### Github  
+## Github  
 Github is the remote hosting service for Git.  
 ```
 git clone url
@@ -293,7 +293,56 @@ git push
 [Resolving a merge conflict using command line](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/resolving-a-merge-conflict-using-the-command-line)  
   
     
+## Collaborating with other  
+### Pull request  
+Pull request is done for suggesting a changes to the repo we don't have access to modify. We fork the repo first and make the changes and commits and then we create a pull request that us reviewed by the owner before merging to the main repo.  
+  
+Pull request workflow:  
+-> Fork the repo.  
+-> Clone the repo locally.    
+-> Create a new local branch.  
+-> Push local branch to the remote branch.  
+-> Create pull request from the Github interface.  
 
+```
+git clone repo_url
+cd repo
+
+git checkout -b branch_name
+// adding new files and commit the chnages  
+
+git push -u origin branch_name
+```  
+
+
+#### Squashing chnages in a single commit  
+When the project maintainer tells to send the pull request with a single commit we need to use interactive version of rebase to make a single commit.  
+```
+git rebase -i master    // we are puttin the commits on top of master branch
+```    
+This will open up the editor to set the behavior of each commit. By default it is `pick` we can change the next commit from pick to `squash` to squash to the first commit thus making a single commit.   
+Now we need to push it. As the code is rebased so the push will be rejected as expected. We need to force push by   
+```
+git push -f
+```  
+
+### CodeReview in Github  
+When we make a pull request it is common to make our code changes to follow the style guideline. To do so when the review is made on the line of codes we need to open the files and edit and resolve the reviews.  
+```
+atom README.md
+
+git commit -a --amend  
+git push -f 
+```  
+
+We can resolve any issue automatically by commit message. To do this. First we will assign ourselves to a issue and note the issue number.  
+Adding `Closes: #1` will resolve the first issue when we push changes.   
+  
+### Continuous Integration(CI) system  
+Continuous Integration(CI) and Continuous Delivery (CD) commonly known as CICD. If we add CI in our project this will test our code against test cases and deploy automatically.   
+This can be useful for automatic checking of pull request before merging. One of the tool is   
+`Tarvis CI` : https://travis-ci.com/ 
+  
 
 
 
