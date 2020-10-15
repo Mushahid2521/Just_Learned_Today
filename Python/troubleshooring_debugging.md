@@ -136,6 +136,44 @@ executor.shutdown()
 ```  
 
 
+### Rsync
+`rsync` is a tool for syncing files from a networked connected drive to the local computer. It doesn't compeletely copy files rather sync the chnages.  
+
+```
+import subprocess
+src = "<source-path>" # replace <source-path> with the source directory
+dest = "<destination-path>" # replace <destination-path> with the destination directory
+
+subprocess.call(["rsync", "-arq", src, dest])
+```    
+  
+
+## Programm Crash  
+#### Invalid Memory:  
+Accessing invalid memory means that the process tried to access a portion of the system's memory that wasn't assigned to it.  
+
+#### Valgrind
+A very powerful tool that can tell us if the code is doing any invalid operattions, no matter if it crashes or not.   
+
+Someties some application doesn't have debugging sysmbols, means it removes the name of the functions to reduce its size. So these packages provide to access to download debugging symbols for debugging purpose. Ubuntu ships debugging symbol packages for all of its packages.   
+
+> Valgrind is available on MacOS and Linux. Dr. Memory is a similar tool available on Windows and Linux.  
+
+#### pdb3   
+Python provides the debugging tool called pdb3.    
+
+
+`prb3 name_of_script.py file_other_params`  
+
+#### Off-by-one Error
+Caused when the index greater than one for >= conditions.  
+
+#### Core files
+When a process crashes, the operating system may generate a file containing information about the state of the process in memory to help the developer debug the program later.  
+
+ 
+
+
 
 
 
