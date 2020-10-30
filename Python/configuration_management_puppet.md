@@ -99,7 +99,8 @@ The actions are taken when only when they are necessary to achieve the goal.
   
 There is no state being kept in seperate run. Each time the puppet agent runs, collects the current facts. The master generates the rules based on the facts.  
 
-In today's IT the important concept is to treat our `insfrastructure as code`. 
+### Infrastructure as code
+In today's IT the important concept is to treat our Infrastructure as Code. 
 This lets us manage of fleet of computers in:  
 1. Consistent
 2. Versionable
