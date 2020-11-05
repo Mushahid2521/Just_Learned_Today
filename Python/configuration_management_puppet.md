@@ -105,8 +105,250 @@ This lets us manage of fleet of computers in:
 1. Consistent
 2. Versionable
 3. Reliable
-4. Repeatable   
+4. Repeatable     
+  
+
+### Permission Mode in Linux  
+1. Each file and directory in a Linux system is assigned permission for three Groups of people `the owner, the group and the others`  
+
+2. For each group, the permissions refer to the possibility of reading, writing and executing the file.  
+
+3. It's common to use numbers to represent the permissions: `4 for read`, `2 for write` and `1 for execute`. 
+The sum of the permissions given to each of the groups is then a part of the final number. 
+For example, a permission of 6 means read and write, a permission of 5 means read and execute, and a permission of 7 means read, write and execute.   
+
+4. XXXX: Special permission, For owner, For group and For others.   
+
+5. For example 0646: The first one represents any special permissions that the file has (no special permissions). 
+The second one is the permissions for the owner, (read and write), and then come the permissions for the group (read), 
+and finally the permissions for the others (read and write)
 
 
+### Path Variable   
+This is an environment variable that contains an ordered list of paths that Linux will search for executables when running a command.  
+Using these paths implies that we don't have to specify the absolute path for each command we want to run.  
+The PATH variable typically contains a few different paths, which are separated by colons.  
+
+#### Triggering a manual run of the Puppet agent 
+> sudo puppet agent -v --test    
+  
+
+>Puppet can be run as Client-Sever architecture as well as Standalone application (useful for testing).  
+
+#### Installing Puppet
+>sudo apt install puppet-master  
+
+### Writing a Puppet rule locally
+Puppet files which hold the rules are called `Manifest` file.  
+Each file end with `.pp` extension.     
+
+```
+nano tools.pp
+```    
+```
+package { 'htop':
+    ensure => present,
+}
+```
+```
+sudo puppet apply -v tools.pp
+```  
+`-v` stands for verbose to print whats going on.    
+  
+#### Catalog: 
+Catalog are the list of rules that are generated for one specific computer once the server has evaluated all vriables, conditions and functions based on the collected Facts.  
+
+### Managing Puppet Resources
+Sometimes some resources are inter-related. Do solve this we need to declare the relationships between them.
+Example:
+
+```
+class ntp {
+    package { 'ntp':
+        ensure => latest,
+    }
+    file { 'etc/ntp.conf':
+        source => 'home/user/ntp.conf',
+        replace => true,
+        require => Package['ntp'],
+        notify => Service['ntp'],
+    }
+    service {'ntp':
+        enable => true,
+        ensure => running.
+        require => File['etc/ntp.conf'],
+    }
+}
+
+include ntp
+```  
+
+Here we are ensuring ntp.conf will be created when the Ntp package will be installed. It also make sure to Notify the service if the conf file changes.  
+In the service we are ensure to run it all the time and require the file.  
+
+`include ntp` actually calls the class to run. We will normally include it in another file.  
+
+
+### Organizing Puppet Modules  
+Modules are used to organize the puppet manifest file.  
+Module is called a collection of Manifests and associated Data.  
+
+Example: Module for monitoring computers health, network stack, configuring web serving applications.   
+
+A Module consists of mainly 3 directories.  
+1. Manifest: Hold all the manifest files.
+2. Files: Files that are directly copied to the client machines whithout any changes or irrespective of rules applied. Ex: ntp.conf file.  
+3. Templates: The files need to be pre-processed before copying to the client machine. This can be processed based on the facts and rules. 
+Templates are documents that combine code, data, and literal text to produce a final rendered output.     
+Templates are written in a templating language, which is specialized for generating text from data. Puppet supports two templating languages:
+- Embedded Puppet (EPP) 
+- Embedded Ruby (ERB) 
+
+Manifest directory must contains a file named `init.pp`. This file must define a class named as the module name.   
+
+By now many pre-packaged modules are available to be directly used by others. They can be installed by:
+
+For downloading Apache module:
+```
+sudo apt install puppet-module-puppetlabs-apache
+```   
+These module located in:
+```
+/usr/share/puppet/modules.available/puppetlabs-apache/
+```  
+
+In this directory `lib`(Functions and facts that are already shipped) and `metadata.json` (Additional data about the module).  
+
+To use this Global module we can create a .pp file and include the following:
+```
+include ::apache
+```  
+:: indicates it is a Global module.  
+
+#### Puppet Node
+We can apply different rules to different computer by using Facts collected or by `Node definition`.  
+
+**Node:** Any system where we can run Puppet Agent. Ex: Server, Computer or even Network router.   
+
+#### Applying rules based on the Agent  
+We can define the rules based on the FQDNs(Fully Qualified Domain Names).   
+If any node doesn't match with the FQDNs defined in the `site.pp` then it will apply the default node rules.   
+
+```
+node default {
+    class { 'sudo': }
+    class { 'ntp':
+        servers => ['ntp1.example.com', 'ntp2.example.com']
+    }
+}
+```  
+
+```
+node webserver.example.com {
+    class { 'sudo': }
+    class { 'ntp':
+        servers => ['ntp1.example.com', 'ntp2.example.com']
+    }
+    class { 'apache': }
+}
+```  
+
+#### Puppet's Certification   
+Agent and Server are managed by certification because.  
+1. We don't want to share confidential files.  
+2. We are actually configuring what we really want.  
+
+There is a CA(Certification Authority) by default in Puppet or we can use our own CA.  
+
+#### Client-Server Architecture   
+Install puppet server to the server using.  
+```
+sudo apt-get install puppetserver 
+```   
+For testing lets auto sign the CA.  
+```
+sudo puppet config --section master set autosign true
+```  
+
+Connect to the server and install puppet by `sudo apt install puppet`  
+
+We set the server for the client using `sudo puppet config set server ubuntu.example.com`  
+
+We test run by using `sudo puppet agent -v --test`  
+
+Here there will no rules will be applied until we add rules in site.pp
+
+The puppet node definition is present in root of nodes environment. By default it access the client's Production environment.  
+`/etc/puppet/code/environments/production/manifests/site.pp`    
+
+After adding the rule we run again `sudo puppet agent -v --test`.  
+
+We need to enable the way so that the Client gets automatically updated when the rules are changed in the server. To do this.  
+
+```
+sudo systemctl enable puppet  // enable the puppet at boot
+sudo systemctl start puppet  // start the puppet service.
+
+sudo systemctl status puppet  // check the status  
+```    
+
+#### Modifying and Testing manifest  
+We can test the rule in a test computer.  
+We can use `puppet pasrser vaildate` to check the syntax is correct.  
+Use `--noop` without applying any operation. Just print the action.  
+We can use `rspec tests` to write code to check the test based on the facts value.    
+
+In an Infrastructure production is the parts where the service is executed and served to its users.  
+
+1. Always roll out to test environment running same way as production.
+2. Roll out as batches. One batch a day (known as Canaries) and others next day.  
+3. Roll out changes part by part so that issue can be found in a small set of changes.  
+
+[http://puppet-lint.com/](http://puppet-lint.com/)   
+[https://rspec-puppet.com/tutorial/](https://rspec-puppet.com/tutorial/)  
+
+#### Two puppet facts  
+```
+if $facts[os][family] == "Debian"
+if $facts[kernel] == "windows"  
+```  
+
+![Puppet resource dir](/Images/puppet_file_structure.png)  
+![site.pp content](/Images/site_pp.png) 
+
+
+#### A Puppet Module to Reboot a VM after 30 days running
+Create a dir in Module named reboot in modules dir.  
+Create manifests dir inside it.  
+Create a init.pp file and put the following contents.  
+ 
+```
+class reboot {
+  if $facts[kernel] == "windows" {
+    $cmd = "shutdown /r"
+  } elsif $facts[kernel] == "Darwin" {
+    $cmd = "shutdown -r now"
+  } else {
+    $cmd = "reboot"
+  }
+  if $facts[uptime_days] > 30 {
+    exec { 'reboot':
+      command => $cmd,
+     }
+   }
+}
+```   
+
+
+
+
+   
+
+ 
+
+
+ 
+ 
+  
 
 
