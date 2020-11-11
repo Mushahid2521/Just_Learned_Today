@@ -409,6 +409,50 @@ An image is the same thing, but includes an operating system and boot loader and
 We have to use *image* to create a template based on it.  
 Image will keep most of the things but removes things that will be different across VMs.  
 
+Steps:
+1. Stop the VM and go to boot disk.  
+2. Create new image.  
+3. Create new Instance template.  
+4. Select custom created image.  
+5. Enable HTTP post.  
+6. Now create new Instance using new instance from template option.  
+
+We can create VMs from gcloud command by following,
+```
+gcloud init
+gcloud compute instances create --source-instance-template template_name ws1 ws2 ...  
+```   
+
+#### Cloud scale deployments  
+Easily and automatically upscale and downscale an infrastructure.  
+
+*Load Balancer:* Ensures that each nodes receives a balanced number of requests.  
+  
+*Round robin* strategy is when load balancer gives each node one request.  
+
+We need to connect database server to the nodes as they are added and removed. This is also served with load balancer but typically managed by 
+provider. Database server are used as Platform as a service.   
+
+How web application works in practice with lot of users:
+1. IP address has different entry points to enter, if one fails other may work, or to provide good service closer to the zone, load and many others.  
+2. For small application this entry points could be the web server that serves the web pages and thats it.  
+3. For larger application there are different layers in between the entry point and actual web service.  
+4. First layer is Web Caching layer and a load balancer to distribute the load. If the response already in the cache 
+it send the response. Ex: Varnish and Nginx. If the response it not available it make request to the actual web server and store the content for future use.   
+5.  This layer also contains a load balancer and a pool of actual web server which generate response. It connects with a database server. 
+As there are lots of server to make query from DB, there is also a load balancer caching layer. 
+The popular application for this level of caching is: Memcached and Redis.   
+
+#### Orchestration  
+The automated configuration and coordination of complex IT systems and services.  
+
+To handle the infrastructure as  code, different cloud providers provide different tools for managing the resources as code.  
+But to make a common tool for all providers there is *Terraform*. 
+
+Terraform uses domain specific language to interact with different types of cloud provider.  
+  
+   
+
 
 
    
