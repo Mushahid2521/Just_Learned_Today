@@ -340,6 +340,75 @@ class reboot {
 ```   
 
 
+## Automation in the Cloud  
+
+Software as a Service(SaaS): Cloud provider delivers an entire application or program to the customer. Ex: Gmail, DropBox  
+Platform as a Service(PaaS): Cloud provider provides a Pre-configured platform the the customer. Ex: SQL database as service.  
+Infrastructure as a Service(IaaS): Supplies only the bare-bones computing experience. Ex: Google Compute Engine, Microsoft Azure Compute.  
+
+Regions: Zone containing one or multiple datacenters. 
+
+>host the dependencies close the main service or same zone.    
+
+Cloud Capacity measurement examples:
+1. Storage
+2. QPS
+3. Total bandwidth served in an hour.  
+
+*QPS:* Queries per second. Servers answering to the queries per second. This is one measure of Capacity.  
+
+
+ Types of scaling.  
+ 1. Horizontal: Adding more nodes. Distribute the services across nodes.   
+ 2. Vertical: Increasing the capacity of the existing node.  
+ 
+ Automatic scaling is when the Cloud provider use Metrics to upscale and downscale.  
+ 
+ *Containers:* Applications that are packaged with their Configurations and Dependencies. Container runs irrespective of the platform.  
+ 
+
+### Google Cloud VM  
+*Reference Image:* Store the contents of the Machine in a reusable format.  
+*Templating:* The process of capturing all of the system configuration to let us create VMs in a repeatable way.  
+
+*Disk Image:* Snapshot of a virtual machine's disk at a given point in time.  
+
+> Create an instance with UI then copy the command to create new VMs with same conf later.
+
+`cat /etc/lsb-release`  This shows the OS info.  
+
+`curl wttr.in`  to access weather report in current location in command line. Curl is used to access a webpage through cmd line.  
+
+#### Running a service in Linux  
+A service starts to serve automatically when the linux machine starts.  
+For example to run a web service. We need to follow the steps:  
+
+1. Write a script that use web application to serve.  
+2. Write a Service script with `.service` extension. Ex: 
+```
+[Unit]
+After=Network.target
+
+[service]
+ExecStart = /usr/local/bin/python_script.py 80
+
+[Install]
+WnatedBy=default.target
+```    
+3. Copy the python script to `/usr/local/bin/`.  
+4. Copy the service file to `/etc/systemd/system/` where service file located.  
+5. `sudo systemctl enable sercie_script.service` to enable the service to run automatically.  
+
+> `ps ax` to get the list of running command. Use `| grep ***` to find desired one.  
+
+
+#### Templating a customized VM  
+A snapshot reflects the contents of a persistent disk in a concrete instant in time.   
+An image is the same thing, but includes an operating system and boot loader and can be used to boot an instance.   
+
+We have to use *image* to create a template based on it.  
+Image will keep most of the things but removes things that will be different across VMs.  
+
 
 
    
