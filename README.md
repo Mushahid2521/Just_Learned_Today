@@ -15,6 +15,7 @@ This repository contains the topics that I learn on daily basis in a concise man
 - [Bash Scripting (Linux)](Python/bash_scripting_bash_language.md)
 - [Operator module](Python/operator.md)
 - [Git and Github](Python/git_github.md)
+- [Configuration Management using Puppet and GCP basics](Python/configuration_management_puppet.md)
 
   
 ## Android  
