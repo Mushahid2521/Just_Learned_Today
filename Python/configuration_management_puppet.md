@@ -450,7 +450,95 @@ To handle the infrastructure as  code, different cloud providers provide differe
 But to make a common tool for all providers there is *Terraform*. 
 
 Terraform uses domain specific language to interact with different types of cloud provider.  
-  
+
+#### Managing Cloud Storage  
+**Storing Data**  
+*Block storage* is like a physical hard disk. It can be persistent (permanent) and Ephemeral (temporary) which needs only when the service run.  
+Disks of different instances can be connected to the same file system by using Platform as a service with NFS or CIFS protocol.  
+
+*Object Storage/Blob storage* lets place and retrieve data in a storage bucket. The objects can be photos, videos. 
+The different types of objects are called blobs. These are accessed through APIs provided by CLoud provider and 
+offered as Databases as a service. This db can be SQL and NoSQL.  
+Cloud providers offer Database as service with different storage class options based on Throughput, IOops and Latency.  
+Hot storage and Cold storage. Hot is when the data is accessed more often and use SSD.  
+
+
+#### Load Balancing 
+More than one machine for same service.  
+Round-Robin method converts a url into the list of all available instances ip address and distribute one after another.  
+But its not the right way, We can use a load balancing server and use health checks, auto-scaling and more to it while 
+distributing load. For tracking a user session we tell the load balancer to use sticky session. This makes route to the same 
+machine for same user session.  
+
+CDN(Content Delivery Network) is a service which tries to make the service as close to the user. This cache the requests for first time and when 
+any other user make the same request it delivers it fast.    
+
+
+#### Monitoring and Alerting  
+Different metrics are used to monitor the service condition. Some metrics are generic and some are specific to the service.   
+For error code in 404 range means client side problem.  
+Error code in range 500 means internal server problem,  
+
+All the cloud providers have their own monitoring system. There are some other systems whih might be used cross providers.  
+
+The metrics are collected using Pull(Make query to service to get the metrics at interval) and Push(Periodically push the metrics to the Monitoring System).  
+
+The main theme behind Monotoring and Alerting is that we Periodically check the state of the system and raise alert when something wrong.  
+
+We need to divide alerts into Urgent and Non-Urgent groups or bugs. Urgent alerts are called Pages, pages are sent with sms, email or audio call.     
+
+**Service Level Goals(SLO):** Pre-established performance goal for a specific service. This should be mesaurable and check if its meeting the objectives.    
+
+Availability of a service is measure using number of `9`s. Five 9 service means 99.999% availability which requires a larger team to manage this availability. Usually 3-9 or 2-9 is pretty good service.    
+
+**Service Level Commitment:** Commutment between a client and a provider.   
+
+#### Systemctl in Linux
+Systemctl is a utility for controlling the systemd system and service manager. It comes with a long list of options for different functionality, including starting, stopping, restarting, or reloading a daemon.    
+
+#### Troubleshooting a 5000 error   
+Check the status of the apache server using.   
+```
+sudo systemctl status apache2
+```   
+
+if it shows error. Restart it using   
+```
+sudo systemctl restart apache2
+```   
+
+If it fails again check the port is being used by the server.   
+```
+netstat -nlp
+```  
+
+If we find one process using port 80, then we are getting the erro for this.  
+To get the list of all processes running and isolating, we use  
+```
+ps -ax | grep python3 
+```   
+
+Kill the process using default port 80 using.  
+```
+sudo kill pid_
+```  
+
+This may start the service with different PID. To kill and disable the service we will first find the service and disable it.   
+```
+sudo systemctl --type==service | grep service_name    
+sudo systemctl stop service_name && sudo systemctl disable service_name  
+```  
+
+We restart the Apache.  
+```
+sudo systemctl start apache2
+```  
+
+
+
+
+
+    
    
 
 
